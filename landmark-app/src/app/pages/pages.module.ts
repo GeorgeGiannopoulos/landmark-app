@@ -11,11 +11,12 @@ import { MaterialModule } from '../material/material.module';
 import { CoreModule } from '../core/core.module';
 // Pages
 import { HomePageComponent } from './home-page/home-page.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 // Constants
 const CORE = [CoreModule];
 
-const PAGES = [HomePageComponent];
+const PAGES = [HomePageComponent, NotFoundPageComponent];
 
 @NgModule({
     declarations: [PagesComponent, ...PAGES],
