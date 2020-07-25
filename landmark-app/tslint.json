@@ -36,7 +36,9 @@
     "import-spacing": true,
     "indent": {
       "options": [
-        "spaces"
+        true,
+        "spaces",
+        4
       ]
     },
     "max-classes-per-file": false,
