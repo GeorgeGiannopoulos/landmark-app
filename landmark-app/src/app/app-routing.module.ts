@@ -9,6 +9,11 @@ const routes: Routes = [
         loadChildren: () =>
             import('./pages/pages.module').then((m) => m.PagesModule),
     },
+    {
+        path: 'auth',
+        loadChildren: () =>
+            import('./auth/auth.module').then((m) => m.AuthModule),
+    },
     { path: '404', component: NotFoundPageComponent}, 
     { path: '', redirectTo: '/pages/home', pathMatch: 'full' },
     { path: '**', redirectTo: '/404', pathMatch: 'full'}

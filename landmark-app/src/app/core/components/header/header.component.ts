@@ -1,4 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { AuthService } from '../../../core/services';
 
 @Component({
     selector: 'app-header',
@@ -7,11 +10,14 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
     @Output() public sidenavToggle = new EventEmitter();
+    isLoggedIn$: Observable<boolean>;
 
     // =========== Component Methods ===========
-    constructor() {}
+    constructor(private authService: AuthService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.isLoggedIn$ = this.authService.isLoggedIn;
+    }
 
     // =========== Component Custom Methods ===========
     public onToggleSidenav = () => {
