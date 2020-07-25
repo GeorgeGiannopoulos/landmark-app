@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+    <div fxHide.gt-xs>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>Home</span>
+    </div>
+    <div fxFlex fxLayout fxLayoutAlign="start" fxHide.xs>
+        <ul fxLayout fxLayoutGap="30px" class="navigation-items">
+            <li>
+                <a routerLink="/pages/home">Home</a>
+            </li>
+        </ul>
+    </div>
+</mat-toolbar>
