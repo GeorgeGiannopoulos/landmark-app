@@ -3,6 +3,7 @@
 const express = require('express');
 const ParseServer = require('parse-server').ParseServer;
 const ParseDashboard = require('parse-dashboard');
+const cors = require('cors');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -15,6 +16,7 @@ const dashboard = new ParseDashboard(parseDashboardConfig); // Parse dashboard
 const landmarksAPI = require('./routes/landmarksAPI'); // Landmarks API
 
 const app = express();
+app.use(cors()); // Enable CORS
 
 // Parse mount. Serve the Parse API on the /parse URL prefix
 const mountPath = process.env.PARSE_MOUNT || '/parse';

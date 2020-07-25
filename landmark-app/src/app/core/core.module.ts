@@ -9,11 +9,13 @@ import { MaterialModule } from '../material/material.module';
 import { LayoutComponent } from './layout/layout.component';
 import {
     HeaderComponent,
+    LandmarksComponent,
     SidebarComponent,
 } from './components';
 
 const COMPONENTS = [
     HeaderComponent,
+    LandmarksComponent,
     SidebarComponent,
 ];
 
