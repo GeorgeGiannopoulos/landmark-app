@@ -38,8 +38,8 @@ var dashboard = new ParseDashboard(
         ],
         users: [
             {
-                user: 'admin',
-                pass: 'admin',
+                user: process.env.APP_USER || 'admin',
+                pass: process.env.APP_PASS || 'admin',
             },
         ],
     }
