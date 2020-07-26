@@ -1,10 +1,19 @@
 <div class="container">
-    <div class="row">
-        <div class="col" *ngFor="let landmark of landmarks">
-            <h2>{{ landmark.title }}</h2>
-            <p>{{ landmark.short_info }}</p>
-            <a [routerLink]="['/pages/view', landmark.objectId]">Explore {{ landmark.title }}...</a>
-            <hr>
+    <div class="row" *ngFor="let landmark of landmarks">
+        <div class="col">
+            <img width="250" height="250"
+                [src]="landmark.photo_thumb ?
+                        landmark.photo_thumb.url :
+                        'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
+                (click)="openDialog(landmark.photo.url)"
+            >
         </div>
+        <div class="col">
+            <a [routerLink]="['/pages/view', landmark.objectId]">
+                <h2>{{ landmark.title }}</h2>
+            </a>
+            <p>{{ landmark.short_info }}</p>
+        </div>
+        <hr>
     </div>
 </div>

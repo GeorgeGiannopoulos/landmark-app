@@ -4,8 +4,11 @@ export class Landmark {
     short_info: string;
     description: string;
     url: string;
-    geo: {
-        latitude: Number;
-        longitude: Number;
+    location: Number[];
+    photo: {
+        url: string
+    };
+    photo_thumb: {
+        url: string
     };
 }

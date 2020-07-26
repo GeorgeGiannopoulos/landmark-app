@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
     form: FormGroup;
     private formSubmitAttempt: boolean;
 
+    // =========== Component Methods ===========
     constructor(private fb: FormBuilder, private authService: AuthService, private location: Location) {}
 
     ngOnInit(): void {
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    // =========== Component Custom Methods ===========
     private validateAllFormFields(formGroup: FormGroup) {
         Object.keys(formGroup.controls).forEach((field) => {
             const control = formGroup.get(field);
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    // =========== UI Methods ===========
     isFieldInvalid(field: string) {
         return (
             (!this.form.get(field).valid && this.form.get(field).touched) ||

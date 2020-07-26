@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { FullPhotoFrameComponent } from '../../dialogs';
 import { LandmarkService } from '../../services';
 import { Landmark } from '../../models';
 
@@ -11,7 +14,10 @@ export class LandmarksComponent implements OnInit {
     public landmarks: Landmark[];
 
     // =========== Component Methods ===========
-    constructor(private landmarkService: LandmarkService) {}
+    constructor(
+        private landmarkService: LandmarkService,
+        public dialog: MatDialog
+    ) {}
 
     ngOnInit(): void {
         this.getLandmarks();
@@ -21,7 +27,15 @@ export class LandmarksComponent implements OnInit {
     private getLandmarks() {
         this.landmarkService.getLandmarks().subscribe((landmarks) => {
             this.landmarks = landmarks;
-            // console.log(this.landmarks);
         });
+    }
+
+    // =========== UI Methods ===========
+    public openDialog(photo: string): void {
+        const dialogRef = this.dialog.open(FullPhotoFrameComponent, {
+            data: { photo: photo },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {});
     }
 }

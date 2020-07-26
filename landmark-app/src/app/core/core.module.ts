@@ -15,6 +15,7 @@ import {
     LandmarkEditComponent,
     SidebarComponent,
 } from './components';
+import { FullPhotoFrameComponent } from './dialogs';
 
 const COMPONENTS = [
     HeaderComponent,
@@ -22,11 +23,17 @@ const COMPONENTS = [
     SidebarComponent,
     LandmarkViewComponent,
     LandmarkEditComponent,
+    FullPhotoFrameComponent,
+];
+
+const ENTRY_COMPONENTS = [
+    FullPhotoFrameComponent,
 ];
 
 @NgModule({
-    declarations: [LayoutComponent, ...COMPONENTS],
+    declarations: [LayoutComponent, ...COMPONENTS, FullPhotoFrameComponent],
     imports: [CommonModule, RouterModule, FlexLayoutModule, MaterialModule, ReactiveFormsModule],
     exports: [CommonModule, LayoutComponent, ...COMPONENTS],
+    entryComponents: [...ENTRY_COMPONENTS],
 })
 export class CoreModule {}

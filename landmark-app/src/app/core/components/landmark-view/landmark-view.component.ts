@@ -1,6 +1,8 @@
 import { Component, Input, SimpleChanges, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
+import { FullPhotoFrameComponent } from '../../dialogs';
 import { LandmarkService } from '../../services';
 import { Landmark } from '../../models';
 
@@ -14,16 +16,18 @@ export class LandmarkViewComponent implements OnInit, OnChanges {
     public landmark: Landmark;
 
     // =========== Component Methods ===========
-    constructor(private landmarkService: LandmarkService, private router: Router) {}
+    constructor(
+        private landmarkService: LandmarkService,
+        private router: Router,
+        public dialog: MatDialog
+    ) {}
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 
     ngOnChanges(change: SimpleChanges) {
         if (change.id.currentValue) {
             this.getLandmark(change.id.currentValue);
         }
-        
     }
 
     // =========== Component Custom Methods ===========
@@ -34,6 +38,14 @@ export class LandmarkViewComponent implements OnInit, OnChanges {
     }
 
     // =========== UI Methods ===========
+    public openDialog(photo: string): void {
+        const dialogRef = this.dialog.open(FullPhotoFrameComponent, {
+            data: { photo: photo },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {});
+    }
+
     public onClickEdit() {
         this.router.navigate(['/pages/edit', this.landmark.objectId]);
     }
