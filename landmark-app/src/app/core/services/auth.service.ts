@@ -14,9 +14,14 @@ Parse.serverURL = environment.PARSE_SERVER.BASE_URL + environment.PARSE_SERVER.M
 })
 export class AuthService {
     private loggedIn = new BehaviorSubject<boolean>(false);
+    private role = new BehaviorSubject<string>('');
 
     get isLoggedIn() {
         return this.loggedIn.asObservable();
+    }
+
+    get isRole() {
+        return this.role.asObservable();
     }
 
     constructor(private router: Router, private location: Location) {}
@@ -25,13 +30,18 @@ export class AuthService {
         // Create a new instance of the user class
         const _user = Parse.User.logIn(user.username, user.password)
             .then((user) => {
-                this.loggedIn.next(true);
-                const navigationHistory = this.location.getState();
-                if (navigationHistory['navigationId'] > 1) {
-                    this.location.back();
-                } else {
-                    this.router.navigate(['/pages/home']);
-                }
+                this.getUserRole(user.get('username'))
+                    .then((role) => {
+                        this.loggedIn.next(true);
+                        this.role.next(role);
+                        const navigationHistory = this.location.getState();
+                        if (navigationHistory['navigationId'] > 1) {
+                            this.location.back();
+                        } else {
+                            this.router.navigate(['/pages/home']);
+                        }
+                    })
+                    .catch((err) => {});
             })
             .catch((err) => {});
     }
@@ -39,5 +49,10 @@ export class AuthService {
     logout() {
         this.loggedIn.next(false);
         this.router.navigate(['/pages/home']);
+    }
+
+    async getUserRole(username: string) {
+        const query = await new Parse.Query(Parse.User).equalTo('username', username).find();
+        return query[0].get('role');
     }
 }
