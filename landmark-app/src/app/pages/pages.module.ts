@@ -14,15 +14,28 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
+import { NotAllowedPageComponent } from './not-allowed-page/not-allowed-page.component';
 
 // Constants
 const CORE = [CoreModule];
 
-const PAGES = [HomePageComponent, ViewPageComponent, EditPageComponent, NotFoundPageComponent];
+const PAGES = [
+    HomePageComponent,
+    ViewPageComponent,
+    EditPageComponent,
+    NotFoundPageComponent,
+    NotAllowedPageComponent,
+];
 
 @NgModule({
     declarations: [PagesComponent, ...PAGES],
-    imports: [CommonModule, RouterModule, PagesRoutingModule, ...CORE, MaterialModule],
+    imports: [
+        CommonModule,
+        RouterModule,
+        PagesRoutingModule,
+        ...CORE,
+        MaterialModule,
+    ],
     exports: [...PAGES],
 })
 export class PagesModule {}

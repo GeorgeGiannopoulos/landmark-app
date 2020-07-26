@@ -16,7 +16,7 @@ export class RoleGuardService implements CanActivate, CanActivateChild {
             take(1),
             map((isRole: string) => {
                 if (isRole !== next.data.role) {
-                    this.router.navigate(['/pages/home']);
+                    this.router.navigate(['/access-denied']);
                     return false;
                 }
                 return true;
