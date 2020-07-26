@@ -12,7 +12,6 @@ export class LandmarkService {
 
     private httpOptions = {
         headers: new HttpHeaders({
-            'Content-Type': 'application/json',
             'X-Parse-Application-Id': environment.PARSE_SERVER.APP_ID,
         }),
     };
@@ -32,5 +31,10 @@ export class LandmarkService {
     public updateLandmark(landmark: Landmark): Observable<Landmark> {
         const url = this.url + '/landmarks/update_landmark/' + `${landmark.objectId}`;
         return this.httpClient.post<Landmark>(url, landmark, this.httpOptions);
+    }
+
+    public updateLandmarkPhoto(landmark: Landmark, formData: FormData): Observable<Landmark> {
+        const url = this.url + '/landmarks/update_image/' + `${landmark.objectId}`;
+        return this.httpClient.post<Landmark>(url, formData, this.httpOptions);
     }
 }

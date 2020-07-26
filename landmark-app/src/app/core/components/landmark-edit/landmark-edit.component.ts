@@ -1,5 +1,7 @@
-import { Component, Input, SimpleChanges, OnInit, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, OnChanges } from '@angular/core';
+import { Input, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 import { LandmarkService } from '../../services';
 import { Landmark } from '../../models';
@@ -22,14 +24,12 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
 
     ngOnInit(): void {
         this.createForm();
-        
     }
 
     ngOnChanges(change: SimpleChanges) {
         if (change.id.currentValue) {
             this.getLandmark(change.id.currentValue);
         }
-        
     }
 
     // =========== Component Custom Methods ===========
@@ -73,14 +73,12 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
             this.landmark['title'] = form.get('title').value;
             this.landmark['description'] = form.get('description').value;
             this.landmark['url'] = form.get('url').value;
-            this.landmarkService.updateLandmark(this.landmark)
-                .subscribe((landmark) => {
-                    this.landmark = landmark;
-                });
+            this.landmarkService.updateLandmark(this.landmark).subscribe((landmark) => {
+                this.landmark = landmark;
+            });
         } else {
             this.validateAllFormFields(form);
         }
-        
 
         this.formSubmitAttempt = true;
     }
@@ -91,4 +89,14 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
             (this.landmarkForm.get(field).untouched && this.formSubmitAttempt)
         );
     }
+
+    public onFileChanged(event) {
+        const imageFile = event.target.files[0];
+        let formData = new FormData();
+        formData.append('photo', imageFile)
+        this.landmarkService.updateLandmarkPhoto(this.landmark, formData).subscribe((landmark: Landmark) => {
+            this.landmark = landmark;
+        });
+    }
+
 }

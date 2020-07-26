@@ -1,6 +1,27 @@
 <div class="container" *ngIf="landmark">
     <div class="row">
         <div class="col">
+            <img width="250" height="250"
+                [src]="landmark.photo_thumb ?
+                        landmark.photo_thumb.url :
+                        'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
+            >
+        </div>
+
+        <div class="col">
+            <input
+                type="file"
+                mat-button
+                color="primary"
+                style="display: none"
+                (change)="onFileChanged($event)"
+                #fileInput
+            >
+            <button (click)="fileInput.click()">Select File</button>
+        </div>
+
+
+        <div class="col">
             <!-- Landmark Form -->
             <form [formGroup]="landmarkForm" (ngSubmit)="onSubmit(landmarkForm)">
 
