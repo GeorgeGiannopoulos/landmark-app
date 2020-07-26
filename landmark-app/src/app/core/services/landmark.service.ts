@@ -28,4 +28,9 @@ export class LandmarkService {
         const url = this.url + '/landmarks/get_landmark_by_id/' + id;
         return this.httpClient.get<Landmark>(url, this.httpOptions);
     }
+
+    public updateLandmark(landmark: Landmark): Observable<Landmark> {
+        const url = this.url + '/landmarks/update_landmark/' + `${landmark.objectId}`;
+        return this.httpClient.post<Landmark>(url, landmark, this.httpOptions);
+    }
 }

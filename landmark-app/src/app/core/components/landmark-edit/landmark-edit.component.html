@@ -1,12 +1,71 @@
 <div class="container" *ngIf="landmark">
     <div class="row">
         <div class="col">
-            <h2>{{ landmark.title }}</h2>
-            <p>{{ landmark.description }}</p>
-            <a class="btn btn-primary btn-lg" href="{{ landmark.url }}" target="_blank" role="button">Go to offical {{ landmark.title }} page...</a>
+            <!-- Landmark Form -->
+            <form [formGroup]="landmarkForm" (ngSubmit)="onSubmit(landmarkForm)">
+
+                <div class="row">
+                    <!-- Landmark Title -->
+                    <mat-form-field class="full-width-input" appearance="outline">
+                        <mat-label>Title</mat-label>
+                        <input
+                            matInput
+                            placeholder="Landmark Title"
+                            formControlName="title"
+                            required
+                        />
+                        <mat-error *ngIf="isFieldInvalid('title')">
+                            Please check the title
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="row">
+                    <!-- Landmark Description -->
+                    <mat-form-field class="full-width-input" appearance="outline">
+                        <mat-label>Description</mat-label>
+                        <textarea
+                            matInput
+                            fullWidth
+                            size="medium"
+                            placeholder="Landmark Description"
+                            formControlName="description"
+                            required
+                            cdkTextareaAutosize
+                        >
+                        </textarea>
+                        <mat-error *ngIf="isFieldInvalid('description')">
+                            Please check the description
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="row">
+                    <!-- Landmark URL -->
+                    <mat-form-field class="full-width-input" appearance="outline">
+                        <mat-label>URL</mat-label>
+                        <input
+                            matInput
+                            placeholder="Landmark URL"
+                            formControlName="url"
+                            required
+                        />
+                        <mat-error *ngIf="isFieldInvalid('url')">
+                            Please check the url
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <button
+                    type="submit"
+                    mat-button
+                    color="primary"
+                    [disabled]="landmarkForm.invalid"
+                >
+                    Submit
+                </button>
+            </form>
+
         </div>
-    </div>
-    <div class="row">
-        <button type="button" mat-button color="primary" (click)="onSumbit()">Sumbit Changes</button>
     </div>
 </div>
