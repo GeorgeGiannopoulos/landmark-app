@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
             this.authService.login(this.form.value)
             .catch((err) => {
                 this.matSnackBar.open('Login Failed', '')
+                this.form.reset();
             });
         } else {
             this.validateAllFormFields(this.form);
