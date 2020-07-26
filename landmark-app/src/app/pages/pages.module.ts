@@ -13,11 +13,12 @@ import { CoreModule } from '../core/core.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { ViewPageComponent } from './view-page/view-page.component';
+import { EditPageComponent } from './edit-page/edit-page.component';
 
 // Constants
 const CORE = [CoreModule];
 
-const PAGES = [HomePageComponent, ViewPageComponent, NotFoundPageComponent];
+const PAGES = [HomePageComponent, ViewPageComponent, EditPageComponent, NotFoundPageComponent];
 
 @NgModule({
     declarations: [PagesComponent, ...PAGES],

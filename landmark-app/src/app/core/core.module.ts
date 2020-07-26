@@ -11,6 +11,7 @@ import {
     HeaderComponent,
     LandmarksComponent,
     LandmarkViewComponent,
+    LandmarkEditComponent,
     SidebarComponent,
 } from './components';
 
@@ -19,6 +20,7 @@ const COMPONENTS = [
     LandmarksComponent,
     SidebarComponent,
     LandmarkViewComponent,
+    LandmarkEditComponent,
 ];
 
 @NgModule({

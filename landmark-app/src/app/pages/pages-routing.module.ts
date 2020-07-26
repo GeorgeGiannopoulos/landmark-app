@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ViewPageComponent } from './view-page/view-page.component';
+import { EditPageComponent } from './edit-page/edit-page.component';
 
 const routes: Routes = [
     {
@@ -22,6 +23,10 @@ const routes: Routes = [
             {
                 path: 'view/:id',
                 component: ViewPageComponent,
+            },
+            {
+                path: 'edit/:id',
+                component: EditPageComponent,
             },
         ],
     },

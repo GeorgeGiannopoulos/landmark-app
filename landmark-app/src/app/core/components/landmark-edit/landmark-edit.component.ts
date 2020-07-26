@@ -1,20 +1,19 @@
 import { Component, Input, SimpleChanges, OnInit, OnChanges } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { LandmarkService } from '../../services';
 import { Landmark } from '../../models';
 
 @Component({
-    selector: 'app-landmark-view',
-    templateUrl: './landmark-view.component.html',
-    styleUrls: ['./landmark-view.component.scss'],
+    selector: 'app-landmark-edit',
+    templateUrl: './landmark-edit.component.html',
+    styleUrls: ['./landmark-edit.component.scss'],
 })
-export class LandmarkViewComponent implements OnInit, OnChanges {
+export class LandmarkEditComponent implements OnInit, OnChanges {
     @Input() id: string;
     public landmark: Landmark;
 
-    // =========== Component Methods ===========
-    constructor(private landmarkService: LandmarkService, private router: Router) {}
+    // =========== Component Methods ===========    
+    constructor(private landmarkService: LandmarkService) {}
 
     ngOnInit(): void {
     }
@@ -34,7 +33,7 @@ export class LandmarkViewComponent implements OnInit, OnChanges {
     }
 
     // =========== UI Methods ===========
-    public onClickEdit() {
-        this.router.navigate(['/pages/edit', this.landmark.objectId]);
+    public onSumbit() {
+        
     }
 }
