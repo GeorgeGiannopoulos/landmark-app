@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { FullPhotoFrameComponent } from '../../dialogs';
 import { LandmarkService } from '../../services';
@@ -19,7 +20,8 @@ export class LandmarkViewComponent implements OnInit, OnChanges {
     constructor(
         private landmarkService: LandmarkService,
         private router: Router,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private matSnackBar: MatSnackBar
     ) {}
 
     ngOnInit(): void {}
@@ -32,9 +34,10 @@ export class LandmarkViewComponent implements OnInit, OnChanges {
 
     // =========== Component Custom Methods ===========
     private getLandmark(id: string) {
-        this.landmarkService.getLandmarksByID(id).subscribe((landmark) => {
-            this.landmark = landmark;
-        });
+        this.landmarkService.getLandmarksByID(id).subscribe(
+            (landmark) => (this.landmark = landmark),
+            (err) => this.matSnackBar.open('Failed to retrieve landmark by ID', '')
+        );
     }
 
     // =========== UI Methods ===========

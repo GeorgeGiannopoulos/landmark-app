@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { LandmarkService } from '../../services';
 import { Landmark } from '../../models';
@@ -20,7 +21,9 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
     private formSubmitAttempt: boolean;
 
     // =========== Component Methods ===========
-    constructor(private landmarkService: LandmarkService, private fb: FormBuilder) {}
+    constructor(private landmarkService: LandmarkService,
+        private fb: FormBuilder,
+        private matSnackBar: MatSnackBar) {}
 
     ngOnInit(): void {
         this.createForm();
@@ -50,10 +53,13 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
     }
 
     private getLandmark(id: string) {
-        this.landmarkService.getLandmarksByID(id).subscribe((landmark) => {
-            this.landmark = landmark;
-            this.editForm(landmark);
-        });
+        this.landmarkService.getLandmarksByID(id).subscribe(
+            (landmark) => {
+                this.landmark = landmark;
+                this.editForm(landmark);
+            },
+            (err) => this.matSnackBar.open('Failed to retrieve landmark by ID', '')
+        );
     }
 
     private validateAllFormFields(formGroup: FormGroup) {
@@ -73,9 +79,10 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
             this.landmark['title'] = form.get('title').value;
             this.landmark['description'] = form.get('description').value;
             this.landmark['url'] = form.get('url').value;
-            this.landmarkService.updateLandmark(this.landmark).subscribe((landmark) => {
-                this.landmark = landmark;
-            });
+            this.landmarkService.updateLandmark(this.landmark).subscribe(
+                (landmark) => (this.landmark = landmark),
+                (err) => this.matSnackBar.open('Failed to update landmark', '')
+            );
         } else {
             this.validateAllFormFields(form);
         }
@@ -94,9 +101,12 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
         const imageFile = event.target.files[0];
         let formData = new FormData();
         formData.append('photo', imageFile)
-        this.landmarkService.updateLandmarkPhoto(this.landmark, formData).subscribe((landmark: Landmark) => {
-            this.landmark = landmark;
-        });
+        this.landmarkService.updateLandmarkPhoto(this.landmark, formData).subscribe(
+            (landmark: Landmark) => (this.landmark = landmark),
+            (err) => this.matSnackBar.open((err.error.message
+                                            ? err.error.message
+                                            : 'Failed to update landmark photo'), '')
+        );
     }
 
 }

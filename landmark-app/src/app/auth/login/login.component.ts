@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from '../../core/services';
 
@@ -14,7 +15,10 @@ export class LoginComponent implements OnInit {
     private formSubmitAttempt: boolean;
 
     // =========== Component Methods ===========
-    constructor(private fb: FormBuilder, private authService: AuthService, private location: Location) {}
+    constructor(private fb: FormBuilder,
+        private authService: AuthService,
+        private location: Location,
+        private matSnackBar: MatSnackBar) {}
 
     ngOnInit(): void {
         this.form = this.fb.group({
@@ -45,7 +49,10 @@ export class LoginComponent implements OnInit {
 
     onAdmin() {
         if (this.form.valid) {
-            this.authService.login(this.form.value);
+            this.authService.login(this.form.value)
+            .catch((err) => {
+                this.matSnackBar.open('Login Failed', '')
+            });
         } else {
             this.validateAllFormFields(this.form);
         }

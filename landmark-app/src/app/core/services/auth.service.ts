@@ -28,22 +28,29 @@ export class AuthService {
 
     login(user: User) {
         // Create a new instance of the user class
-        const _user = Parse.User.logIn(user.username, user.password)
-            .then((user) => {
-                this.getUserRole(user.get('username'))
-                    .then((role) => {
-                        this.loggedIn.next(true);
-                        this.role.next(role);
-                        const navigationHistory = this.location.getState();
-                        if (navigationHistory['navigationId'] > 1) {
-                            this.location.back();
-                        } else {
-                            this.router.navigate(['/pages/home']);
-                        }
-                    })
-                    .catch((err) => {});
-            })
-            .catch((err) => {});
+        return new Promise(async (resolve, reject) => {
+            Parse.User.logIn(user.username, user.password)
+                .then((user) => {
+                    this.getUserRole(user.get('username'))
+                        .then((role) => {
+                            this.loggedIn.next(true);
+                            this.role.next(role);
+                            const navigationHistory = this.location.getState();
+                            if (navigationHistory['navigationId'] > 1) {
+                                this.location.back();
+                            } else {
+                                this.router.navigate(['/pages/home']);
+                            }
+                            resolve();
+                        })
+                        .catch((err) => {
+                            reject(err);
+                        });
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
     }
 
     logout() {

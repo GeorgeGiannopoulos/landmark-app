@@ -111,7 +111,22 @@ router.post('/update_image/:landmark_id', upload.single('photo'), async (req, re
 
         return res.status(200).json(landmark);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ ok: false, message: error.message });
+    }
+});
+
+// Catch only the Multer errors, by using the MulterError class
+router.use((err, req, res, next) => {
+    //Catch multer error
+    let message;
+    if (err.code === 'LIMIT_PART_COUNT') { message='Too many parts' };
+    if (err.code === 'LIMIT_FILE_SIZE') { message='File too large' };
+    if (err.code === 'LIMIT_FILE_COUNT') { message='Too many files' };
+    if (err.code === 'LIMIT_FIELD_KEY') { message='Field name too long' };
+    if (err.code === 'LIMIT_FIELD_VALUE') { message='Field value too long' };
+    if (err.code === 'LIMIT_FIELD_COUNT') { message='Too many fields' };
+    if (err.code === 'LIMIT_UNEXPECTED_FILE') { message='Unexpected field' };
+    if (message !== undefined) {
+        return res.status(500).json({ ok: false, message: message });
     }
 });
