@@ -2,7 +2,8 @@
     <div class="row">
         <div class="col" *ngFor="let landmark of landmarks">
             <h2>{{ landmark.title }}</h2>
-            <p>Short Info: {{ landmark.short_info }}</p>
+            <p>{{ landmark.short_info }}</p>
+            <a [routerLink]="['/pages/view', landmark.objectId]">Explore {{ landmark.title }}...</a>
             <hr>
         </div>
     </div>

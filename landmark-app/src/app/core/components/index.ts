@@ -4,3 +4,4 @@ export * from './header/header.component';
 export * from './sidebar/sidebar.component';
 // Landmarks
 export * from './landmarks/landmarks.component';
+export * from './landmark-view/landmark-view.component';

@@ -12,11 +12,12 @@ import { CoreModule } from '../core/core.module';
 // Pages
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { ViewPageComponent } from './view-page/view-page.component';
 
 // Constants
 const CORE = [CoreModule];
 
-const PAGES = [HomePageComponent, NotFoundPageComponent];
+const PAGES = [HomePageComponent, ViewPageComponent, NotFoundPageComponent];
 
 @NgModule({
     declarations: [PagesComponent, ...PAGES],

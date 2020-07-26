@@ -1,0 +1,12 @@
+<div class="container" *ngIf="landmark">
+    <div class="row">
+        <div class="col">
+            <h2>{{ landmark.title }}</h2>
+            <p>{{ landmark.description }}</p>
+            <a class="btn btn-primary btn-lg" href="{{ landmark.url }}" target="_blank" role="button">Go to offical {{ landmark.title }} page...</a>
+        </div>
+    </div>
+    <div class="row">
+        <button type="button" mat-button color="primary" (click)="onClickEdit()">Edit Landmark</button>
+    </div>
+</div>

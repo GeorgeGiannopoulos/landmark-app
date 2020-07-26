@@ -10,6 +10,7 @@ import { LayoutComponent } from './layout/layout.component';
 import {
     HeaderComponent,
     LandmarksComponent,
+    LandmarkViewComponent,
     SidebarComponent,
 } from './components';
 
@@ -17,6 +18,7 @@ const COMPONENTS = [
     HeaderComponent,
     LandmarksComponent,
     SidebarComponent,
+    LandmarkViewComponent,
 ];
 
 @NgModule({
