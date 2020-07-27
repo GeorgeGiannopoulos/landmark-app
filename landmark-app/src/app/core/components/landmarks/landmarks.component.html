@@ -1,19 +1,30 @@
-<div class="container">
-    <div class="row" *ngFor="let landmark of landmarks">
-        <div class="col">
-            <img width="250" height="250"
-                [src]="landmark.photo_thumb ?
-                        landmark.photo_thumb.url :
-                        'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
-                (click)="openDialog(landmark.photo.url)"
-            >
+<mat-card class="landmark-container" *ngFor="let landmark of landmarks">
+    <mat-card-content>
+
+        <div class="container">
+            <div fxLayout="row" fxLayout.xs="column" fxFlex fxLayoutGap="20px">
+                <div>
+                    <img width="250" height="250"
+                    [src]="landmark.photo_thumb ?
+                            landmark.photo_thumb.url :
+                            'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
+                    (click)="openDialog(landmark.photo.url)"
+                >
+                </div>
+                <div fxFlex>
+                    <div fxLayout="row" class="title-row">
+                        <p class="title-col">
+                            <a [routerLink]="['/pages/view', landmark.objectId]">{{ landmark.title }}</a>
+                        </p>
+                    </div>
+                    <div fxLayout="row">
+                        <p>{{ landmark.short_info }}</p>
+                    </div>
+                </div>
+
+            </div>
+                
         </div>
-        <div class="col">
-            <a [routerLink]="['/pages/view', landmark.objectId]">
-                <h2>{{ landmark.title }}</h2>
-            </a>
-            <p>{{ landmark.short_info }}</p>
-        </div>
-        <hr>
-    </div>
-</div>
+
+    </mat-card-content>
+</mat-card>
