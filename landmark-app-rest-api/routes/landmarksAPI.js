@@ -85,6 +85,7 @@ router.post('/update_landmark/:landmark_id', async (req, res) => {
 
         landmark.set('title', req.body.title);
         landmark.set('description', req.body.description);
+        landmark.set('short_info', req.body.short_info);
         landmark.set('url', req.body.url);
 
         await landmark.save();

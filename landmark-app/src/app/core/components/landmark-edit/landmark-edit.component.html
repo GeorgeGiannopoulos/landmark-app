@@ -60,6 +60,26 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
+
+                <div class="row">
+                    <!-- Landmark Short Info -->
+                    <mat-form-field class="full-width-input" appearance="outline">
+                        <mat-label>Short Info</mat-label>
+                        <textarea
+                            matInput
+                            fullWidth
+                            size="medium"
+                            placeholder="Landmark Short Info"
+                            formControlName="short_info"
+                            required
+                            cdkTextareaAutosize
+                        >
+                        </textarea>
+                        <mat-error *ngIf="isFieldInvalid('short_info')">
+                            Please check the short info
+                        </mat-error>
+                    </mat-form-field>
+                </div>
                 
                 <div class="row">
                     <!-- Landmark URL -->

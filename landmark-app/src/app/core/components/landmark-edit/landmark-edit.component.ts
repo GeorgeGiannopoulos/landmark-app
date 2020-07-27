@@ -40,6 +40,7 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
         this.landmarkForm = this.fb.group({
             title: ['', Validators.required],
             description: ['', Validators.required],
+            short_info: ['', Validators.required],
             url: ['', Validators.required],
         });
     }
@@ -48,6 +49,7 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
         this.landmarkForm.setValue({
             title: landmark['title'],
             description: landmark['description'],
+            short_info: landmark['short_info'],
             url: landmark['url'],
         });
     }
@@ -78,6 +80,7 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
         if (form.valid) {
             this.landmark['title'] = form.get('title').value;
             this.landmark['description'] = form.get('description').value;
+            this.landmark['short_info'] = form.get('short_info').value;
             this.landmark['url'] = form.get('url').value;
             this.landmarkService.updateLandmark(this.landmark).subscribe(
                 (landmark) => (this.landmark = landmark),
