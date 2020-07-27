@@ -43,7 +43,7 @@ export class LandmarkViewComponent implements OnInit, OnChanges {
     // =========== UI Methods ===========
     public openDialog(photo: string): void {
         const dialogRef = this.dialog.open(FullPhotoFrameComponent, {
-            data: { photo: photo },
+            data: { photo },
         });
 
         dialogRef.afterClosed().subscribe((result) => {});

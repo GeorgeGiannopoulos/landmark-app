@@ -22,5 +22,5 @@ export class HeaderComponent implements OnInit {
     // =========== Component Custom Methods ===========
     public onToggleSidenav = () => {
         this.sidenavToggle.emit();
-    };
+    }
 }

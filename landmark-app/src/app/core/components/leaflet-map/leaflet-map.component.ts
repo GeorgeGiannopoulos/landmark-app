@@ -10,13 +10,13 @@ import * as L from 'leaflet';
 })
 export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() location: number[];
-    @Input() title: string = '';
+    @Input() title = '';
     private map;
 
-    private initZoom: number = 5;
-    private minZoom: number = 1;
-    private maxZoom: number = 19;
-    private panZoom: number = 15;
+    private initZoom = 5;
+    private minZoom = 1;
+    private maxZoom = 19;
+    private panZoom = 15;
 
     // =========== Component Methods ===========
     constructor() {}
@@ -73,7 +73,7 @@ export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     private addMapPin(location: number[], title: string): void {
-        L.marker([location[1], location[0]],{
+        L.marker([location[1], location[0]], {
             icon: L.icon({
                 iconSize: [ 25, 41 ],
                 iconAnchor: [ 13, 41 ],

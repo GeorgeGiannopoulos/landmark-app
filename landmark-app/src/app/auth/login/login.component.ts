@@ -16,9 +16,9 @@ export class LoginComponent implements OnInit {
 
     // =========== Component Methods ===========
     constructor(private fb: FormBuilder,
-        private authService: AuthService,
-        private location: Location,
-        private matSnackBar: MatSnackBar) {}
+                private authService: AuthService,
+                private location: Location,
+                private matSnackBar: MatSnackBar) {}
 
     ngOnInit(): void {
         this.form = this.fb.group({
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         if (this.form.valid) {
             this.authService.login(this.form.value)
             .catch((err) => {
-                this.matSnackBar.open('Login Failed', '')
+                this.matSnackBar.open('Login Failed', '');
                 this.form.reset();
             });
         } else {

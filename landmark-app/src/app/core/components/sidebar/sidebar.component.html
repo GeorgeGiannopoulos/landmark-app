@@ -7,7 +7,7 @@
         <span class="nav-caption">Home</span>
     </a>
 
-    <a mat-list-item *ngIf="!(isLoggedIn$ | async)"
+    <a mat-list-item *ngIf="(isLoggedIn$ | async) === false"
         routerLink="/auth/login"
         (click)="onSidenavClose()">
         <mat-icon>arrow_forward</mat-icon>

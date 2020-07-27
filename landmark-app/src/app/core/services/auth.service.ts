@@ -30,8 +30,8 @@ export class AuthService {
         // Create a new instance of the user class
         return new Promise(async (resolve, reject) => {
             Parse.User.logIn(user.username, user.password)
-                .then((user) => {
-                    this.getUserRole(user.get('username'))
+                .then((current_user) => {
+                    this.getUserRole(current_user.get('username'))
                         .then((role) => {
                             this.loggedIn.next(true);
                             this.role.next(role);

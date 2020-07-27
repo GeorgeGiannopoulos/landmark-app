@@ -22,5 +22,5 @@ export class SidebarComponent implements OnInit {
     // =========== Component Custom Methods ===========
     public onSidenavClose = () => {
         this.sidenavClose.emit();
-    };
+    }
 }

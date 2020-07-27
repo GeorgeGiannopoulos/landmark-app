@@ -13,7 +13,7 @@
         </ul>
     </div>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-        <ul fxLayout fxLayoutGap="15px" class="navigation-items" *ngIf="!(isLoggedIn$ | async)">
+        <ul fxLayout fxLayoutGap="15px" class="navigation-items" *ngIf="(isLoggedIn$ | async) === false">
             <li>
                 <a routerLink="/auth/login">Login</a>
             </li>

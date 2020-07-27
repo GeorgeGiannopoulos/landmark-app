@@ -4,7 +4,7 @@ export class Landmark {
     short_info: string;
     description: string;
     url: string;
-    location: Number[];
+    location: number[];
     photo: {
         url: string
     };

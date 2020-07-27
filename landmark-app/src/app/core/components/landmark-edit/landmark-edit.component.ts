@@ -22,8 +22,8 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
 
     // =========== Component Methods ===========
     constructor(private landmarkService: LandmarkService,
-        private fb: FormBuilder,
-        private matSnackBar: MatSnackBar) {}
+                private fb: FormBuilder,
+                private matSnackBar: MatSnackBar) {}
 
     ngOnInit(): void {
         this.createForm();
@@ -47,10 +47,10 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
 
     private editForm(landmark) {
         this.landmarkForm.setValue({
-            title: landmark['title'],
-            description: landmark['description'],
-            short_info: landmark['short_info'],
-            url: landmark['url'],
+            title: landmark.title,
+            description: landmark.description,
+            short_info: landmark.short_info,
+            url: landmark.url,
         });
     }
 
@@ -78,10 +78,10 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
     // =========== UI Methods ===========
     public onSubmit(form: FormGroup) {
         if (form.valid) {
-            this.landmark['title'] = form.get('title').value;
-            this.landmark['description'] = form.get('description').value;
-            this.landmark['short_info'] = form.get('short_info').value;
-            this.landmark['url'] = form.get('url').value;
+            this.landmark.title = form.get('title').value;
+            this.landmark.description = form.get('description').value;
+            this.landmark.short_info = form.get('short_info').value;
+            this.landmark.url = form.get('url').value;
             this.landmarkService.updateLandmark(this.landmark).subscribe(
                 (landmark) => (this.landmark = landmark),
                 (err) => this.matSnackBar.open('Failed to update landmark', '')
@@ -102,8 +102,8 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
 
     public onFileChanged(event) {
         const imageFile = event.target.files[0];
-        let formData = new FormData();
-        formData.append('photo', imageFile)
+        const formData = new FormData();
+        formData.append('photo', imageFile);
         this.landmarkService.updateLandmarkPhoto(this.landmark, formData).subscribe(
             (landmark: Landmark) => (this.landmark = landmark),
             (err) => this.matSnackBar.open((err.error.message

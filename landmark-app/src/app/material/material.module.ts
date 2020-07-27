@@ -78,11 +78,11 @@ const verticalPosition: MatSnackBarVerticalPosition = 'top';
     imports: [CommonModule, ...MATERIAL],
     exports: [...MATERIAL],
     providers: [
-        { 
+        {
             provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {
                 duration: 2500,
-                horizontalPosition: horizontalPosition,
-                verticalPosition: verticalPosition
+                horizontalPosition,
+                verticalPosition
             }
         }
     ]
