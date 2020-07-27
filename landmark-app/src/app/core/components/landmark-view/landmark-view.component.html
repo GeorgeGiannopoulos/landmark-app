@@ -17,4 +17,9 @@
     <div class="row">
         <button type="button" mat-button color="primary" (click)="onClickEdit()">Edit Landmark</button>
     </div>
+    <div class="row">
+        <div class="col">
+            <app-leaflet-map [location]="landmark.location" [title]="landmark.title"></app-leaflet-map>
+        </div>
+    </div>
 </div>

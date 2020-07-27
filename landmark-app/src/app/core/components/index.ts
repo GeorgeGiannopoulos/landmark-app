@@ -6,3 +6,5 @@ export * from './sidebar/sidebar.component';
 export * from './landmarks/landmarks.component';
 export * from './landmark-view/landmark-view.component';
 export * from './landmark-edit/landmark-edit.component';
+// Leaflet Map
+export * from './leaflet-map/leaflet-map.component';

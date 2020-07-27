@@ -13,6 +13,7 @@ import {
     LandmarksComponent,
     LandmarkViewComponent,
     LandmarkEditComponent,
+    LeafletMapComponent,
     SidebarComponent,
 } from './components';
 import { FullPhotoFrameComponent } from './dialogs';
@@ -23,6 +24,7 @@ const COMPONENTS = [
     SidebarComponent,
     LandmarkViewComponent,
     LandmarkEditComponent,
+    LeafletMapComponent,
     FullPhotoFrameComponent,
 ];
 
