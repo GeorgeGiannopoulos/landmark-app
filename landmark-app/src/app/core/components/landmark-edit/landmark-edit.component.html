@@ -16,13 +16,11 @@
                     <div class="row image-submit-button">
                         <input
                             type="file"
-                            mat-button
-                            color="primary"
                             style="display: none"
                             (change)="onFileChanged($event)"
                             #fileInput
                         >
-                        <button (click)="fileInput.click()">Select File</button>
+                        <button mat-stroked-button color="primary" (click)="fileInput.click()">Select File</button>
                     </div>
                 </div>
 
@@ -104,7 +102,7 @@
                         <button
                             type="submit"
                             class="submit-button"
-                            mat-button
+                            mat-stroked-button
                             color="primary"
                             [disabled]="landmarkForm.invalid"
                         >

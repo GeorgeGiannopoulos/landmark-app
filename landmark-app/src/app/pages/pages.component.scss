@@ -11,6 +11,10 @@ mat-sidenav {
     width: $sidebar-width;
 }
 
+:host ::ng-deep mat-toolbar {
+    background: #008a8b !important;
+}
+
 main {
     background: $main-background;
 }
