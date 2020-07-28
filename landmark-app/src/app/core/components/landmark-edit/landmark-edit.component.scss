@@ -1,3 +1,39 @@
+@import "../../styles/custom-styles.scss";
+
+mat-card {
+    margin: auto 15%;
+    min-width: $view-box-width;
+    box-shadow: unset !important;
+}
+
 mat-form-field {
     width: 100%;
+}
+
+img {
+    margin-left: 2rem;
+    width: $view-box-width;
+    height: $view-box-height;
+}
+
+.image-submit-button {
+    margin-left: 2rem;
+}
+
+/* Media queries */
+@media screen and (max-width: 1500px) {
+    mat-form-field {
+        margin-left: 2rem;
+        width: calc(100% - 2rem);
+    }
+
+    .submit-button {
+        margin-left: 2rem;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    mat-card {
+        margin: auto;
+    }
 }

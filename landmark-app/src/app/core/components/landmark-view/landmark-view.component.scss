@@ -45,6 +45,7 @@ img {
     column-gap: 4rem;
     column-rule: 1px solid #00000052;
     text-align: justify;
+    white-space: break-spaces;
     p::first-letter {
         font-size: 4.5em;
         float: left;

@@ -1,7 +1,7 @@
-<mat-card class="landmark-container">
+<mat-card class="landmark-container" *ngIf="landmark">
     <mat-card-content>
 
-        <div class="container" *ngIf="landmark">
+        <div class="container">
 
             <div fxLayout="row" fxLayout.lt-lg="column" fxFlex fxLayoutGap="20px">
                 <div class="image-container">

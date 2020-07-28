@@ -1,112 +1,123 @@
-<div class="container" *ngIf="landmark">
-    <div class="row">
-        <div class="col">
-            <img width="250" height="250"
-                [src]="landmark.photo_thumb ?
-                        landmark.photo_thumb.url :
-                        'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
-            >
-        </div>
+<mat-card class="landmark-container">
+    <mat-card-content>
 
-        <div class="col">
-            <input
-                type="file"
-                mat-button
-                color="primary"
-                style="display: none"
-                (change)="onFileChanged($event)"
-                #fileInput
-            >
-            <button (click)="fileInput.click()">Select File</button>
-        </div>
+        <div class="container" *ngIf="landmark">
 
+            <div fxLayout="row" fxLayout.lt-lg="column" fxFlex fxLayoutGap="20px">
 
-        <div class="col">
-            <!-- Landmark Form -->
-            <form [formGroup]="landmarkForm" (ngSubmit)="onSubmit(landmarkForm)">
-
-                <div class="row">
-                    <!-- Landmark Title -->
-                    <mat-form-field class="full-width-input" appearance="outline">
-                        <mat-label>Title</mat-label>
-                        <input
-                            matInput
-                            placeholder="Landmark Title"
-                            formControlName="title"
-                            required
-                        />
-                        <mat-error *ngIf="isFieldInvalid('title')">
-                            Please check the title
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                
-                <div class="row">
-                    <!-- Landmark Description -->
-                    <mat-form-field class="full-width-input" appearance="outline">
-                        <mat-label>Description</mat-label>
-                        <textarea
-                            matInput
-                            fullWidth
-                            size="medium"
-                            placeholder="Landmark Description"
-                            formControlName="description"
-                            required
-                            cdkTextareaAutosize
+                <div>
+                    <div class="row image-container">
+                        <img
+                            [src]="landmark.photo_thumb ?
+                                    landmark.photo_thumb.url :
+                                    'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
                         >
-                        </textarea>
-                        <mat-error *ngIf="isFieldInvalid('description')">
-                            Please check the description
-                        </mat-error>
-                    </mat-form-field>
+                    </div>
+                    <div class="row image-submit-button">
+                        <input
+                            type="file"
+                            mat-button
+                            color="primary"
+                            style="display: none"
+                            (change)="onFileChanged($event)"
+                            #fileInput
+                        >
+                        <button (click)="fileInput.click()">Select File</button>
+                    </div>
                 </div>
 
-                <div class="row">
-                    <!-- Landmark Short Info -->
-                    <mat-form-field class="full-width-input" appearance="outline">
-                        <mat-label>Short Info</mat-label>
-                        <textarea
-                            matInput
-                            fullWidth
-                            size="medium"
-                            placeholder="Landmark Short Info"
-                            formControlName="short_info"
-                            required
-                            cdkTextareaAutosize
+                <div fxFlex>
+                    <!-- Landmark Form -->
+                    <form [formGroup]="landmarkForm" (ngSubmit)="onSubmit(landmarkForm)">
+
+                        <div class="col" class="title-row">
+                                <!-- Landmark Title -->
+                            <mat-form-field class="full-width-input" appearance="outline">
+                                <mat-label>Title</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="Landmark Title"
+                                    formControlName="title"
+                                    required
+                                />
+                                <mat-error *ngIf="isFieldInvalid('title')">
+                                    Please check the title
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col" class="link-row">
+                            <!-- Landmark URL -->
+                            <mat-form-field class="full-width-input" appearance="outline">
+                                <mat-label>URL</mat-label>
+                                <input
+                                    matInput
+                                    placeholder="Landmark URL"
+                                    formControlName="url"
+                                    required
+                                />
+                                <mat-error *ngIf="isFieldInvalid('url')">
+                                    Please check the url
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <!-- Landmark Short Info -->
+                            <mat-form-field class="full-width-input" appearance="outline">
+                                <mat-label>Short Info</mat-label>
+                                <textarea
+                                    matInput
+                                    fullWidth
+                                    size="medium"
+                                    placeholder="Landmark Short Info"
+                                    formControlName="short_info"
+                                    required
+                                    cdkTextareaAutosize
+                                >
+                                </textarea>
+                                <mat-error *ngIf="isFieldInvalid('short_info')">
+                                    Please check the short info
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                             <!-- Landmark Description -->
+                            <mat-form-field class="full-width-input" appearance="outline">
+                                <mat-label>Description</mat-label>
+                                <textarea
+                                    matInput
+                                    fullWidth
+                                    size="medium"
+                                    placeholder="Landmark Description"
+                                    formControlName="description"
+                                    required
+                                    cdkTextareaAutosize
+                                >
+                                </textarea>
+                                <mat-error *ngIf="isFieldInvalid('description')">
+                                    Please check the description
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="submit-button"
+                            mat-button
+                            color="primary"
+                            [disabled]="landmarkForm.invalid"
                         >
-                        </textarea>
-                        <mat-error *ngIf="isFieldInvalid('short_info')">
-                            Please check the short info
-                        </mat-error>
-                    </mat-form-field>
+                            Submit
+                        </button>
+
+                    </form>
+
                 </div>
-                
-                <div class="row">
-                    <!-- Landmark URL -->
-                    <mat-form-field class="full-width-input" appearance="outline">
-                        <mat-label>URL</mat-label>
-                        <input
-                            matInput
-                            placeholder="Landmark URL"
-                            formControlName="url"
-                            required
-                        />
-                        <mat-error *ngIf="isFieldInvalid('url')">
-                            Please check the url
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                
-                <button
-                    type="submit"
-                    mat-button
-                    color="primary"
-                    [disabled]="landmarkForm.invalid"
-                >
-                    Submit
-                </button>
-            </form>
+
+            </div>
 
         </div>
-    </div>
-</div>
+
+    </mat-card-content>
+</mat-card>
