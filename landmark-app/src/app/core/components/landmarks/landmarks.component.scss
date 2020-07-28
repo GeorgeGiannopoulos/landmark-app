@@ -2,8 +2,14 @@
 
 mat-card {
     margin: 20px;
-    min-width: 250px;
+    min-width: $view-box-width;
     box-shadow: unset !important;
+}
+
+img {
+    margin-left: 2rem;
+    width: $view-box-width;
+    height: $view-box-height;
 }
 
 .title-row {
@@ -15,11 +21,35 @@ mat-card {
         a {
             color: darkcyan;
             &:hover {
-                background: #EBEBEB;
+                background: $main-background;
                 padding: 5px;
                 border-radius: 5px;
             }
         }
     }
 }
+
+.short_info {
+    text-align: justify;
+}
+
+/* Media queries */
+@media screen and (max-width: 350px) {
+    mat-card {
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .image-container {
+        margin: auto;
+        img {
+            margin: auto;
+        }
+    }
+    .title-col {
+        margin: auto;
+    }
+}
+
 

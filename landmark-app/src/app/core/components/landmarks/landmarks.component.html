@@ -3,13 +3,13 @@
 
         <div class="container">
             <div fxLayout="row" fxLayout.xs="column" fxFlex fxLayoutGap="20px">
-                <div>
-                    <img width="250" height="250"
-                    [src]="landmark.photo_thumb ?
-                            landmark.photo_thumb.url :
-                            'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
-                    (click)="openDialog(landmark.photo.url)"
-                >
+                <div class="image-container">
+                    <img
+                        [src]="landmark.photo_thumb ?
+                                landmark.photo_thumb.url :
+                                'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
+                        (click)="openDialog(landmark.photo.url)"
+                    >
                 </div>
                 <div fxFlex>
                     <div fxLayout="row" class="title-row">
@@ -18,7 +18,7 @@
                         </p>
                     </div>
                     <div fxLayout="row">
-                        <p>{{ landmark.short_info }}</p>
+                        <p class="short_info">{{ landmark.short_info }}</p>
                     </div>
                 </div>
 

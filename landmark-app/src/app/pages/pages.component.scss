@@ -1,14 +1,16 @@
+@import "../core/styles/custom-styles.scss";
+
 mat-sidenav-container,
 mat-sidenav-content,
 mat-sidenav {
     height: 100%;
+    background: $main-background;
 }
 
 mat-sidenav {
-    width: 250px;
+    width: $sidebar-width;
 }
 
 main {
-    padding: 10px;
-    background: #EBEBEB;
+    background: $main-background;
 }

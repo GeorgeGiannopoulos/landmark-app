@@ -19,16 +19,7 @@ export interface DialogData {
             </div>
         </div>
     `,
-    styles: [`
-        .dialog-picture {
-            max-height: none;
-            img {
-                display: block;
-                max-width: 100%;
-                height: 100%;
-            }
-        }
-    `],
+    styleUrls: ['./full-photo-frame.component.scss'],
 })
 export class FullPhotoFrameComponent implements OnInit {
 

@@ -1,25 +1,42 @@
-<div class="container" *ngIf="landmark">
-    <div class="row">
-        <div class="col">
-            <img width="250" height="250"
-                [src]="landmark.photo_thumb ?
-                        landmark.photo_thumb.url :
-                        'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
-                (click)="openDialog(landmark.photo.url)"
-            >
+<mat-card class="landmark-container">
+    <mat-card-content>
+
+        <div class="container" *ngIf="landmark">
+
+            <div fxLayout="row" fxLayout.lt-lg="column" fxFlex fxLayoutGap="20px">
+                <div class="image-container">
+                    <img
+                        [src]="landmark.photo ?
+                                landmark.photo.url :
+                                'https://via.placeholder.com/400x400?text=Image+Not+Found+!'"
+                        (click)="openDialog(landmark.photo.url)"
+                    >
+                </div>
+                <div fxFlex>
+                    <div class="row" class="title-row">
+                        <p class="title-col">{{ landmark.title }}</p>
+                    </div>
+                    <div class="row" class="link-row">
+                        <div class="col" class="link-container">
+                            <a class="btn btn-primary btn-lg" [routerLink]="['/pages/edit', landmark.objectId]" role="button">Edit Landmark</a>
+                        </div>
+                        <div class="col" class="link-container">
+                            <a class="btn btn-primary btn-lg" href="{{ landmark.url }}" target="_blank" role="button">Visit Landmark's Page</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <app-leaflet-map [location]="landmark.location" [title]="landmark.title"></app-leaflet-map>
+                </div>
+            </div>
+
         </div>
-        <div class="col">
-            <h2>{{ landmark.title }}</h2>
+
+        <div class="description-container">
             <p>{{ landmark.description }}</p>
-            <a class="btn btn-primary btn-lg" href="{{ landmark.url }}" target="_blank" role="button">Go to offical {{ landmark.title }} page...</a>
         </div>
-    </div>
-    <div class="row">
-        <button type="button" mat-button color="primary" (click)="onClickEdit()">Edit Landmark</button>
-    </div>
-    <div class="row">
-        <div class="col">
-            <app-leaflet-map [location]="landmark.location" [title]="landmark.title"></app-leaflet-map>
-        </div>
-    </div>
-</div>
+
+    </mat-card-content>
+</mat-card>
+
+

@@ -1,6 +1,17 @@
+// Frames (images, map)
+$view-box-width: 250px;
+$view-box-height: 250px;
+
+// sidebar
+$sidebar-width: 250px;
+
+// Main background
+$main-background: #EBEBEB;
+
 // Links
 a {
     text-decoration: none;
+    color: black;
     &:link {
         text-decoration: none;
     }

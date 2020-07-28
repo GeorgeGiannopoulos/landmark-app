@@ -48,8 +48,4 @@ export class LandmarkViewComponent implements OnInit, OnChanges {
 
         dialogRef.afterClosed().subscribe((result) => {});
     }
-
-    public onClickEdit() {
-        this.router.navigate(['/pages/edit', this.landmark.objectId]);
-    }
 }
