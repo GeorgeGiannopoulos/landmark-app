@@ -108,7 +108,10 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
         const formData = new FormData();
         formData.append('photo', imageFile);
         this.landmarkService.updateLandmarkPhoto(this.landmark, formData).subscribe(
-            (landmark: Landmark) => (this.landmark = landmark),
+            (landmark: Landmark) => {
+                this.landmark = landmark;
+                this.matSnackBar.open('Landmark updated', '');
+            },
             (err) => this.matSnackBar.open((err.error.message
                                             ? err.error.message
                                             : 'Failed to update landmark photo'), '')

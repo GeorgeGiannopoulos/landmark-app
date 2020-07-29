@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { Parse } from 'parse';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { User } from '../models';
 import { environment } from '../../../environments/environment';
 
@@ -17,14 +19,32 @@ export class AuthService {
     private role = new BehaviorSubject<string>('');
 
     get isLoggedIn() {
-        return this.loggedIn.asObservable();
+        this.loggedIn.next(this.isAuthenticated());
+        return this.loggedIn;
     }
 
     get isRole() {
         return this.role.asObservable();
     }
 
-    constructor(private router: Router, private location: Location) {}
+    get getSessionToken(): string {
+        let user = Parse.User.current();
+        if (user) {
+            return user.getSessionToken();
+        } else {
+            return '';
+        }
+    }
+
+    constructor(private router: Router, private location: Location, private matSnackBar: MatSnackBar) {}
+
+    isAuthenticated(): boolean {
+        if (Parse.User.current()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     login(user: User) {
         // Create a new instance of the user class
@@ -55,7 +75,13 @@ export class AuthService {
 
     logout() {
         this.loggedIn.next(false);
-        this.router.navigate(['/pages/home']);
+        Parse.User.logOut().then(
+            (results) => (this.router.navigate(['/pages/home'])),
+            (err) => {
+                this.router.navigate(['/pages/home']);
+                this.matSnackBar.open('Failed to logged out', '');
+            }
+        );
     }
 
     async getUserRole(username: string) {

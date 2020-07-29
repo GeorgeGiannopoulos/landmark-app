@@ -78,19 +78,24 @@ router.get('/get_landmark_by_id/:landmark_id', async (req, res) => {
 
 router.post('/update_landmark/:landmark_id', async (req, res) => {
     try {
-        const landmark_id = req.params.landmark_id;
-        const Landmark = Parse.Object.extend('Landmarks');
-        const query = new Parse.Query(Landmark);
-        const landmark = await query.get(landmark_id);
+        let sessionToken = req.headers['x-parse-session-token'];
+        if (sessionToken !== '') {
+            const landmark_id = req.params.landmark_id;
+            const Landmark = Parse.Object.extend('Landmarks');
+            const query = new Parse.Query(Landmark);
+            const landmark = await query.get(landmark_id, sessionToken);
 
-        landmark.set('title', req.body.title);
-        landmark.set('description', req.body.description);
-        landmark.set('short_info', req.body.short_info);
-        landmark.set('url', req.body.url);
+            landmark.set('title', req.body.title);
+            landmark.set('description', req.body.description);
+            landmark.set('short_info', req.body.short_info);
+            landmark.set('url', req.body.url);
 
-        await landmark.save();
+            await landmark.save(null, { sessionToken: sessionToken });
 
-        return res.status(200).json(landmark);
+            return res.status(200).json(landmark);
+        } else {
+            return res.status(500).json({ ok: false, message: 'Empty session token' });
+        }
     } catch (error) {
         console.log(error);
         return res.status(500).json({ ok: false, message: error.message });
@@ -99,18 +104,23 @@ router.post('/update_landmark/:landmark_id', async (req, res) => {
 
 router.post('/update_image/:landmark_id', upload.single('photo'), async (req, res) => {
     try {
-        const landmark_id = req.params.landmark_id;
-        const Landmark = Parse.Object.extend('Landmarks');
-        const query = new Parse.Query(Landmark);
-        const landmark = await query.get(landmark_id);
+        const sessionToken = req.headers['x-parse-session-token'];
+        if (sessionToken !== '') {
+            const landmark_id = req.params.landmark_id;
+            const Landmark = Parse.Object.extend('Landmarks');
+            const query = new Parse.Query(Landmark);
+            const landmark = await query.get(landmark_id, sessionToken);
 
-        const photo = await photoPreProcessing(req.file);
-        landmark.set('photo', photo.original);
-        landmark.set('photo_thumb', photo.thumbnail);
+            const photo = await photoPreProcessing(req.file);
+            landmark.set('photo', photo.original);
+            landmark.set('photo_thumb', photo.thumbnail);
 
-        await landmark.save(null);
+            await landmark.save(null, { sessionToken: sessionToken });
 
-        return res.status(200).json(landmark);
+            return res.status(200).json(landmark);
+        } else {
+            return res.status(500).json({ ok: false, message: 'Empty session token' });
+        }
     } catch (error) {
         return res.status(500).json({ ok: false, message: error.message });
     }
