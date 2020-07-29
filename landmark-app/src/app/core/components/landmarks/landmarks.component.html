@@ -8,7 +8,7 @@
                         [src]="landmark.photo_thumb ?
                                 landmark.photo_thumb.url :
                                 'https://via.placeholder.com/250x250?text=Image+Not+Found+!'"
-                        (click)="openDialog(landmark.photo.url)"
+                        (click)="openDialog(landmark.photo ? landmark.photo.url : '')"
                     >
                 </div>
                 <div fxFlex>

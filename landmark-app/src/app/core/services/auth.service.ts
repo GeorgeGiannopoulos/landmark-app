@@ -77,10 +77,7 @@ export class AuthService {
         this.loggedIn.next(false);
         Parse.User.logOut().then(
             (results) => (this.router.navigate(['/pages/home'])),
-            (err) => {
-                this.router.navigate(['/pages/home']);
-                this.matSnackBar.open('Failed to logged out', '');
-            }
+            (err) => this.router.navigate(['/pages/home'])
         );
     }
 
