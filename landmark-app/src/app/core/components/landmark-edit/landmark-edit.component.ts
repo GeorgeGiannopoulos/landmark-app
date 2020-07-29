@@ -83,7 +83,10 @@ export class LandmarkEditComponent implements OnInit, OnChanges {
             this.landmark.short_info = form.get('short_info').value;
             this.landmark.url = form.get('url').value;
             this.landmarkService.updateLandmark(this.landmark).subscribe(
-                (landmark) => (this.landmark = landmark),
+                (landmark) => {
+                    this.landmark = landmark;
+                    this.matSnackBar.open('Landmark updated', '');
+                },
                 (err) => this.matSnackBar.open('Failed to update landmark', '')
             );
         } else {
