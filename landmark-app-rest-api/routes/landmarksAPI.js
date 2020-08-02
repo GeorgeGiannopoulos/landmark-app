@@ -51,7 +51,7 @@ async function photoPreProcessing(file) {
 // Routes
 // =================================================================================================
 /* landmarks API */
-router.get('/get_landmarks/', async (req, res) => {
+router.get('/landmarks/', async (req, res) => {
     try {
         const Landmark = Parse.Object.extend('Landmarks');
         const query = new Parse.Query(Landmark);
@@ -64,7 +64,7 @@ router.get('/get_landmarks/', async (req, res) => {
     }
 });
 
-router.get('/get_landmark_by_id/:landmark_id', async (req, res) => {
+router.get('/landmarks/:landmark_id', async (req, res) => {
     try {
         const landmark_id = req.params.landmark_id;
         const Landmark = Parse.Object.extend('Landmarks');
@@ -76,7 +76,7 @@ router.get('/get_landmark_by_id/:landmark_id', async (req, res) => {
     }
 });
 
-router.post('/update_landmark/:landmark_id', async (req, res) => {
+router.put('/landmarks/:landmark_id', async (req, res) => {
     try {
         let sessionToken = req.headers['x-parse-session-token'];
         if (sessionToken !== '') {
@@ -102,7 +102,7 @@ router.post('/update_landmark/:landmark_id', async (req, res) => {
     }
 });
 
-router.post('/update_image/:landmark_id', upload.single('photo'), async (req, res) => {
+router.put('/landmark_image/:landmark_id', upload.single('photo'), async (req, res) => {
     try {
         const sessionToken = req.headers['x-parse-session-token'];
         if (sessionToken !== '') {

@@ -31,22 +31,22 @@ export class LandmarkService {
     }
 
     public getLandmarks(): Observable<Landmark[]> {
-        const url = this.url + '/landmarks/get_landmarks';
+        const url = this.url + '/rest/api/v1' + '/landmarks';
         return this.httpClient.get<Landmark[]>(url, this.getHttpHeader(''));
     }
 
     public getLandmarksByID(id: string): Observable<Landmark> {
-        const url = this.url + '/landmarks/get_landmark_by_id/' + id;
+        const url = this.url + '/rest/api/v1' + '/landmarks/' + id;
         return this.httpClient.get<Landmark>(url, this.getHttpHeader(''));
     }
 
     public updateLandmark(landmark: Landmark): Observable<Landmark> {
-        const url = this.url + '/landmarks/update_landmark/' + `${landmark.objectId}`;
-        return this.httpClient.post<Landmark>(url, landmark, this.getHttpHeader('secure'));
+        const url = this.url + '/rest/api/v1' + '/landmarks/' + `${landmark.objectId}`;
+        return this.httpClient.put<Landmark>(url, landmark, this.getHttpHeader('secure'));
     }
 
     public updateLandmarkPhoto(landmark: Landmark, formData: FormData): Observable<Landmark> {
-        const url = this.url + '/landmarks/update_image/' + `${landmark.objectId}`;
-        return this.httpClient.post<Landmark>(url, formData, this.getHttpHeader('secure'));
+        const url = this.url + '/rest/api/v1' + '/landmark_image/' + `${landmark.objectId}`;
+        return this.httpClient.put<Landmark>(url, formData, this.getHttpHeader('secure'));
     }
 }

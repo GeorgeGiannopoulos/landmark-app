@@ -28,7 +28,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 // End points
 app.use(mountPath, api);
 app.use('/dashboard', dashboard);
-app.use('/landmarks', landmarksAPI);
+app.use('/rest/api/v1', landmarksAPI);
 
 // ========== Test the parse-server (start) ==========
 // Parse Server plays nicely with the rest of your web routes
