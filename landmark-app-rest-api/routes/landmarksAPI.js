@@ -3,6 +3,7 @@ const express = require('express');
 const multer = require('multer');
 const sharp = require('sharp');
 const crypto = require('crypto');
+const axios = require('axios');
 
 const router = express.Router();
 module.exports = router;
@@ -47,6 +48,47 @@ async function photoPreProcessing(file) {
     return { original, thumbnail };
 }
 
+async function getUserIDFromToken(sessionToken) {
+    return axios({
+        method: 'get',
+        baseURL: process.env.SERVER_URL,
+        url: '/users/me',
+        headers: {
+            "X-Parse-Application-Id": process.env.APP_ID,
+            "X-Parse-Session-Token": sessionToken,
+        }
+    });
+}
+
+async function getObjectACL(landmarkObject, sessionToken) {
+    let userID = await getUserIDFromToken(sessionToken)
+        .then((user) => user['data']['objectId'])
+        .catch((err) => undefined);
+    if (userID) {
+        // Get public write permission
+        const publicWrite = landmarkObject.getACL().getPublicWriteAccess();
+        if (publicWrite) {
+            return publicWrite;
+        }
+        // Get private write permission
+        const userWrite = landmarkObject.getACL().getWriteAccess(userID);
+        if (userWrite) {
+            return userWrite;
+        }
+        // Get User's Role write access permission
+        const userQuery = new Parse.Query(Parse.User);
+        const user = await userQuery.get(userID);
+        const rolesQuery = new Parse.Query(Parse.Role);
+        rolesQuery.equalTo('users', user);
+        const roles = await rolesQuery.find();
+        const roleWrite = landmarkObject.getACL().getRoleWriteAccess(roles[0]);
+        // Return write permission
+        return roleWrite;
+    } else  {
+        return landmarkObject.getACL().getPublicWriteAccess();
+    }
+}
+
 // =================================================================================================
 // Routes
 // =================================================================================================
@@ -85,19 +127,23 @@ router.put('/landmarks/:landmark_id', async (req, res) => {
             const query = new Parse.Query(Landmark);
             const landmark = await query.get(landmark_id, sessionToken);
 
-            landmark.set('title', req.body.title);
-            landmark.set('description', req.body.description);
-            landmark.set('short_info', req.body.short_info);
-            landmark.set('url', req.body.url);
+            const hasWriteAccess = await getObjectACL(landmark, sessionToken);
+            if (hasWriteAccess) {
+                landmark.set('title', req.body.title);
+                landmark.set('description', req.body.description);
+                landmark.set('short_info', req.body.short_info);
+                landmark.set('url', req.body.url);
 
-            await landmark.save(null, { sessionToken: sessionToken });
+                await landmark.save(null, { sessionToken: sessionToken });
 
-            return res.status(200).json(landmark);
+                return res.status(200).json(landmark);
+            } else {
+                return res.status(500).json({ ok: false, message: 'Write access denied!' });
+            }
         } else {
             return res.status(500).json({ ok: false, message: 'Empty session token' });
         }
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ ok: false, message: error.message });
     }
 });
@@ -111,13 +157,18 @@ router.put('/landmark_image/:landmark_id', upload.single('photo'), async (req, r
             const query = new Parse.Query(Landmark);
             const landmark = await query.get(landmark_id, sessionToken);
 
-            const photo = await photoPreProcessing(req.file);
-            landmark.set('photo', photo.original);
-            landmark.set('photo_thumb', photo.thumbnail);
+            const hasWriteAccess = await getObjectACL(landmark, sessionToken);
+            if (hasWriteAccess) {
+                const photo = await photoPreProcessing(req.file);
+                landmark.set('photo', photo.original);
+                landmark.set('photo_thumb', photo.thumbnail);
 
-            await landmark.save(null, { sessionToken: sessionToken });
+                await landmark.save(null, { sessionToken: sessionToken });
 
-            return res.status(200).json(landmark);
+                return res.status(200).json(landmark);
+            } else {
+                return res.status(500).json({ ok: false, message: 'Write access denied!' });
+            }
         } else {
             return res.status(500).json({ ok: false, message: 'Empty session token' });
         }

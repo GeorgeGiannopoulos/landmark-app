@@ -15,8 +15,8 @@ from dotenv import load_dotenv
 # Load enviromental variables
 dot_env_path = os.path.join(os.path.dirname(__file__), '../' + '.env')
 if not os.path.isfile(dot_env_path):
-    print (".env file does not exist!")
-    print ('Exitting...')
+    print(".env file does not exist!")
+    print('Exitting...')
     sys.exit(1)
 
 load_dotenv(dotenv_path=dot_env_path)
@@ -34,22 +34,32 @@ _env = {
     'PARSE_MOUNT': '',
     'PORT': ''
 }
-# Dictionary with the users to add to the mongoDB
-_users = [
-    {
-        'username': 'admin',
-        'password': 'admin',
-        'role': 'admin',
-        'ACL': {
-            '*': { 'read': 'true', 'write': 'true' }
-        }
-    },
-    {
-        'username': 'guest',
-        'password': 'guest',
-        'role': 'guest'
-    },
-]
+# Dictionary with the users/roles to add to the mongoDB
+_admin_user = {
+    'username': 'admin',
+    'password': 'admin',
+    'ACL': {
+        '*': {'read': 'true'}
+    }
+}
+
+_guest_user = {
+    'username': 'guest',
+    'password': 'guest',
+    'ACL': {
+        '*': {'read': 'true'}
+    }
+}
+
+_admin_role = {
+    'name': 'admin',
+    'ACL': {'*': {'read': 'true'}}
+}
+
+_guest_role = {
+    'name': 'guest',
+    'ACL': {'*': {'read': 'true'}}
+}
 
 # ==================================================================================================
 # Methods
@@ -64,8 +74,8 @@ def _get_env_variables(env):
     for key, value in env.items():
         env_var = os.getenv(key)
         if env_var in [None, '']:
-            print ('Key: \'%s\' is missing from the enviroment' % (key))
-            print ('Exitting...')
+            print('Key: \'%s\' is missing from the enviroment' % (key))
+            print('Exitting...')
             sys.exit(1)
         env_dict[key] = env_var
 
@@ -117,17 +127,45 @@ def _check_http_request(requestResult):
     """
     requestResult = json.loads(requestResult)
     # In case the result is a dict then propably is an error
-    print (json.dumps(requestResult, indent=4, sort_keys=True))
+    print(json.dumps(requestResult, indent=4, sort_keys=True))
 
 
-def _set_users(users, url, header):
+def _set_users(user, url, header):
     """
     This function creates the users to mongoDB
     """
-    for user in users:
-        print ("Creating user \'%s\'..." % (user['username']))
-        response = _http_request(url, json.dumps(user), header)
-        _check_http_request(response)
+    print("Creating user \'%s\'..." % (user['username']))
+    response = _http_request(url, json.dumps(user), header)
+    _check_http_request(response)
+    res = json.loads(response)
+    if 'objectId' in res:
+        return res['objectId']
+    else:
+        return None
+
+
+def _set_roles(role, objectID, url, header):
+    """
+    This function creates the roles to mongoDB
+    """
+    print("Creating role \'%s\'..." % (role['name']))
+    role['users'] = {
+        '__op': 'AddRelation',
+        'objects': [
+            {
+                '__type': 'Pointer',
+                'className': '_User',
+                'objectId': objectID
+            }
+        ]
+    }
+    response = _http_request(url, json.dumps(role), header)
+    _check_http_request(response)
+    res = json.loads(response)
+    if 'objectId' in res:
+        return res['objectId']
+    else:
+        return None
 
 
 def _set_new_schema(class_file, class_name, url, header):
@@ -135,18 +173,27 @@ def _set_new_schema(class_file, class_name, url, header):
     This function sets the new schema to mongoDB
     """
     class_file['className'] = class_name
-    print ("Creating new Class-Schema...")
+    print("Creating new Class-Schema...")
     response = _http_request(url, json.dumps(class_file), header)
     _check_http_request(response)
 
 
-def _set_new_data(data_file, url, header):
+def _set_new_data(data_file, adminRoleName, guestRoleName, url, header):
     """
     This function sets the new schema to mongoDB
     """
-    print ("Populating Class with data file...")
+    print("Populating Class with data file...")
     for data in data_file:
-        print (data)
+        if adminRoleName is not None and guestRoleName is not None:
+            data['ACL'] = {
+                '*': {'read': 'true'},
+                'role:' + adminRoleName: {'read': 'true', 'write': 'true'},
+                'role:' + guestRoleName: {'read': 'true'}
+            }
+        else:
+            data['ACL'] = {
+                '*': {'read': 'true'}
+            }
         response = _http_request(url, json.dumps(data), header)
         _check_http_request(response)
 
@@ -154,7 +201,7 @@ def _set_new_data(data_file, url, header):
 # =========================================== Arguments ============================================
 def _handleArgument():
     parser = argparse.ArgumentParser(description='Details',
-        usage='python populate-mongo.py -d Landmarks.json -c LandmarksClassSchema.json -n Landmarks')
+                                     usage='python populate-mongo.py -d Landmarks.json -c LandmarksClassSchema.json -n Landmarks')
 
     # Required
     parser.add_argument("-d", "--dataFile",
@@ -162,13 +209,13 @@ def _handleArgument():
                         help="Data-File",
                         metavar="<Data File>",
                         required=True)
-    
+
     parser.add_argument("-c", "--classSchema",
                         dest="class_schema",
                         help="Class-Schema",
                         metavar="<Class Schema>",
                         required=True)
-    
+
     parser.add_argument("-n", "--className",
                         dest="class_name",
                         help="Class-Name",
@@ -176,8 +223,9 @@ def _handleArgument():
                         required=True)
 
     args = parser.parse_args()
-    
+
     return args
+
 
 # ==================================================================================================
 # main
@@ -192,13 +240,31 @@ if __name__ == "__main__":
     # Get HTTP Header
     header = _get_header(env)
 
-    # ========================================================
-    # Adding users
+   # ========================================================
+    # Adding admin user and role
     # ========================================================
     # Get HTTP URL for adding users
     url = _get_url(env, 'users')
     # Set users to mongoDB
-    _set_users(_users, url, header)
+    adminUserID = _set_users(_admin_user, url, header)
+    if adminUserID is not None:
+        # Get HTTP URL for adding roles
+        url = _get_url(env, 'roles')
+        # Set roles to mongoDB
+        adminRoleID = _set_roles(_admin_role, adminUserID, url, header)
+
+    # ========================================================
+    # Adding guest user and role
+    # ========================================================
+    # Get HTTP URL for adding users
+    url = _get_url(env, 'users')
+    # Set users to mongoDB
+    guestUserID = _set_users(_guest_user, url, header)
+    if guestUserID is not None:
+        # Get HTTP URL for adding roles
+        url = _get_url(env, 'roles')
+        # Set roles to mongoDB
+        guestRoleID = _set_roles(_guest_role, guestUserID, url, header)
 
     # ========================================================
     # Adding class-schema
@@ -216,4 +282,4 @@ if __name__ == "__main__":
     # Get HTTP URL for creating the new scheme
     url = _get_url(env, 'classes/' + args.class_name)
     # Set new data to mongoDB
-    _set_new_data(data_file, url, header)
+    _set_new_data(data_file, _admin_role['name'], _guest_role['name'], url, header)

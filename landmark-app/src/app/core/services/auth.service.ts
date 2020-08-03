@@ -76,13 +76,13 @@ export class AuthService {
     logout() {
         this.loggedIn.next(false);
         Parse.User.logOut().then(
-            (results) => (this.router.navigate(['/pages/home'])),
+            (results) => this.router.navigate(['/pages/home']),
             (err) => this.router.navigate(['/pages/home'])
         );
     }
 
     async getUserRole(username: string) {
-        const query = await new Parse.Query(Parse.User).equalTo('username', username).find();
-        return query[0].get('role');
+        const query = await new Parse.Query(Parse.Role).equalTo('users', Parse.User.current()).find();
+        return query[0].get('name');
     }
 }
