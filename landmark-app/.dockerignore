@@ -1,0 +1,9 @@
+/dist
+Dockerfile
+/e2e
+.editorconfig
+.gitignore
+karma.conf.js
+/node_modules
+*.zip
+*.md

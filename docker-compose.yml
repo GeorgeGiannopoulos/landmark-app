@@ -1,0 +1,25 @@
+version: '3'
+services:
+    mongo:
+        image: mongo:3.6
+        container_name: database
+        volumes:
+            - ./db:/data/db
+        ports:
+            - 27017:27017
+    back-end:
+        image: back-end:v1
+        container_name: back-end
+        build: ./landmark-app-rest-api
+        links:
+            - mongo:mongo
+        ports:
+            - 1337:1337
+    front-end:
+        image: front-end:v1
+        container_name: front-end
+        build: ./landmark-app
+        links:
+            - back-end:v2
+        ports:
+            - 4200:80

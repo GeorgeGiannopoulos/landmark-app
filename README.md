@@ -50,6 +50,35 @@ To configure the landmark-app (front-end) go [HERE](https://github.com/GeorgeGia
 
 To configure the landmark-app-rest-api (back-end) go [HERE](https://github.com/GeorgeGiannopoulos/landmark-app/blob/master/landmark-app-rest-api/README.md)
 
+## Docker
+
+There are two options:
+
+1. Stand-alone Dockerfiles (no dockerfile for MongoDB)
+2. Docker-compose file (MongoDB image included)
+
+
+#### Stand-alone Dockerfiles
+Front-end:
+```
+$ cd ./landmark-app
+$ docker build -t <front-end-image-name>:<front-end-tag-version> .
+$ docker run -d -it -p <UI-port>:80 --name <front-end-container-name> <front-end-image-name>:<front-end-tag-version>
+```
+
+Back-end:
+```
+$ cd ./landmark-app-rest-api
+$ docker build -t <back-end-image-name>:<back-end-tag-version> .
+$ docker run -d -it -p <parse-server-port>:<parse-server-port> --name <back-end-container-name> <back-end-image-name>:<back-end-tag-version>
+```
+
+Docker-compose
+```
+$ docker-compose build
+$ docker-compose up
+```
+
 ## Authors
 
 * **George Giannopoulos** - *Initial work* - [GeorgeGiannopoulos](https://github.com/GeorgeGiannopoulos)
